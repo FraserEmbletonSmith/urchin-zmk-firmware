@@ -199,10 +199,10 @@
         NAV {
             display-name = "NavNum";
             bindings = <
-&kp ESC     &trans              &trans                   &kp END               &kp HOME     &kp PAGE_UP    &kp HOME                &kp N8                &kp END               &kp N0
-&kp TAB     &hm LEFT_CONTROL S  &hm LEFT_SHIFT UP_ARROW  &hm LEFT_COMMAND DEL  &kp PAGE_UP  &kp PAGE_DOWN  &hm RIGHT_COMMAND LEFT  &hm RIGHT_SHIFT DOWN  &hm UP RIGHT_CONTROL  &hm RIGHT RIGHT_ALT
-&kp K_UNDO  &kp K_CUT           &kp C_AC_COPY            &kp LS(C)             &kp K_PASTE  &trans         &kp N1                  &kp N2                &kp N3                &kp PAGE_DOWN
-                                                         &trans                &kp SPACE    &kp RET        &mo 3
+&kp ESC    &trans              &trans                   &kp END               &kp LG(LS(NUMBER_4))  &kp PAGE_UP    &kp HOME                &kp N8                &kp END                     &kp N0
+&kp TAB    &hm LEFT_CONTROL S  &hm LEFT_SHIFT UP_ARROW  &hm LEFT_COMMAND DEL  &kp PAGE_UP           &kp PAGE_DOWN  &hm RIGHT_COMMAND LEFT  &hm RIGHT_SHIFT DOWN  &hm RIGHT_CONTROL UP_ARROW  &hm RIGHT_ALT RIGHT_ARROW
+&kp LG(Z)  &kp LG(X)           &kp LG(C)                &kp LS(LG(C))         &kp LG(V)             &trans         &kp N1                  &kp N2                &kp N3                      &kp PAGE_DOWN
+                                                        &trans                &kp SPACE             &kp RET        &mo 3
             >;
         };
 
