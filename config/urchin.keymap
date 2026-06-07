@@ -17,6 +17,7 @@
             tapping-term-ms = <200>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
+
             quick-tap-ms = <180>;
             require-prior-idle-ms = <120>;
         };
@@ -36,6 +37,7 @@
         paraless: paraless {
             compatible = "zmk,behavior-mod-morph";
             bindings = <&kp LEFT_PARENTHESIS>, <&kp LESS_THAN>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT)>;
         };
@@ -43,6 +45,7 @@
         paragreat: paragreat {
             compatible = "zmk,behavior-mod-morph";
             bindings = <&kp RIGHT_PARENTHESIS>, <&kp GREATER_THAN>;
+
             #binding-cells = <0>;
             mods = <(MOD_LSFT)>;
         };
@@ -66,6 +69,7 @@
         compatible = "zmk,combos";
 
         // TAB: hold rightmost left thumb (lt 1 BACKSPACE = pos 33) + Z (pos 20)
+
         tab {
             bindings = <&kp TAB>;
             key-positions = <20 33>;
@@ -185,50 +189,50 @@
         DEF {
             display-name = "Base";
             bindings = <
-&kp Q           &kp W               &kp F             &kp P               &kp B              &kp J      &kp L               &kp U              &kp Y                &kp SEMI
-&hm LEFT_ALT A  &hm LEFT_CONTROL R  &hm LEFT_SHIFT S  &hm LEFT_COMMAND T  &kp G              &kp M      &hm LEFT_COMMAND N  &hm RIGHT_SHIFT E  &hm RIGHT_CONTROL I  &hm RIGHT_ALT O
-&kp Z           &kp X               &kp C             &kp D               &kp V              &kp K      &kp H               &kp COMMA          &kp DOT              &kp FSLH
-                                    &lt 2 ESCAPE      &lt 1 BACKSPACE    &kp SPACE  &lt 3 RETURN
+&kp Q           &kp W               &kp F             &kp P               &kp B            &kp J      &kp L               &kp U              &kp Y                &kp SEMI
+&hm LEFT_ALT A  &hm LEFT_CONTROL R  &hm LEFT_SHIFT S  &hm LEFT_COMMAND T  &kp G            &kp M      &hm LEFT_COMMAND N  &hm RIGHT_SHIFT E  &hm RIGHT_CONTROL I  &hm RIGHT_ALT O
+&kp Z           &kp X               &kp C             &kp D               &kp V            &kp K      &kp H               &kp COMMA          &kp DOT              &kp FSLH
+                                                      &lt 2 ESCAPE        &lt 1 BACKSPACE  &kp SPACE  &lt 3 RETURN
             >;
         };
 
         NAV {
             display-name = "NavNum";
             bindings = <
-&kp ESC         &trans              &trans                   &kp END               &kp HOME       &kp PAGE_UP    &kp HOME                &kp N8                &kp END               &kp N0
-&hm LEFT_ALT A  &hm LEFT_CONTROL S  &hm LEFT_SHIFT UP_ARROW  &hm LEFT_COMMAND DEL  &kp PAGE_UP    &kp PAGE_DOWN  &hm RIGHT_COMMAND LEFT  &hm RIGHT_SHIFT DOWN  &hm UP RIGHT_CONTROL  &hm RIGHT RIGHT_ALT
-&kp K_UNDO      &kp K_CUT           &kp C_AC_COPY            &kp LS(C)             &kp K_PASTE    &trans         &kp N1                  &kp N2                &kp N3                &kp PAGE_DOWN
-                                    &trans                   &kp SPACE              &kp RET        &mo 3
+&kp ESC     &trans              &trans                   &kp END               &kp HOME     &kp PAGE_UP    &kp HOME                &kp N8                &kp END               &kp N0
+&kp TAB     &hm LEFT_CONTROL S  &hm LEFT_SHIFT UP_ARROW  &hm LEFT_COMMAND DEL  &kp PAGE_UP  &kp PAGE_DOWN  &hm RIGHT_COMMAND LEFT  &hm RIGHT_SHIFT DOWN  &hm UP RIGHT_CONTROL  &hm RIGHT RIGHT_ALT
+&kp K_UNDO  &kp K_CUT           &kp C_AC_COPY            &kp LS(C)             &kp K_PASTE  &trans         &kp N1                  &kp N2                &kp N3                &kp PAGE_DOWN
+                                                         &trans                &kp SPACE    &kp RET        &mo 3
             >;
         };
 
         SYM {
             display-name = "Symbols";
             bindings = <
-&kp GRAVE          &kp LESS_THAN           &kp GREATER_THAN      &kp MINUS                  &kp PIPE         &kp CARET  &kp LEFT_BRACE                      &kp RIGHT_BRACE                    &kp DOLLAR              &kp SEMI
-&hm LEFT_ALT EXCL  &hm LEFT_CONTROL ASTRK  &hm LEFT_SHIFT SLASH  &hm LEFT_COMMAND KP_EQUAL  &kp AMPERSAND    &kp HASH   &hm RIGHT_COMMAND LEFT_PARENTHESIS  &hm RIGHT_SHIFT RIGHT_PARENTHESIS  &hm RIGHT_CONTROL SEMI  &hm RIGHT_ALT SINGLE_QUOTE
-&kp TILDE          &kp PLUS                &kp LEFT_BRACKET      &kp RIGHT_BRACKET          &kp PERCENT      &kp AT     &kp COLON                           &kp LBRC                           &kp RBRC                &kp PIPE
-                                           &mo 3                  &kp SPACE                  &kp RET          &trans
+&kp GRAVE          &kp LESS_THAN           &kp GREATER_THAN      &kp MINUS                  &kp PIPE       &kp CARET  &kp LEFT_BRACE                      &kp RIGHT_BRACE                    &kp DOLLAR              &kp SEMI
+&hm LEFT_ALT EXCL  &hm LEFT_CONTROL ASTRK  &hm LEFT_SHIFT SLASH  &hm LEFT_COMMAND KP_EQUAL  &kp AMPERSAND  &kp HASH   &hm RIGHT_COMMAND LEFT_PARENTHESIS  &hm RIGHT_SHIFT RIGHT_PARENTHESIS  &hm RIGHT_CONTROL SEMI  &hm RIGHT_ALT SINGLE_QUOTE
+&kp TILDE          &kp PLUS                &kp LEFT_BRACKET      &kp RIGHT_BRACKET          &kp PERCENT    &kp AT     &kp COLON                           &kp LBRC                           &kp RBRC                &kp PIPE
+                                                                 &mo 3                      &kp SPACE      &kp RET    &trans
             >;
         };
 
         ADJ {
             display-name = "System";
             bindings = <
-&kp F1        &kp F2         &kp F3  &kp F4  &kp F5            &kp F6        &kp N7        &kp N8        &kp N9        &kp F10
-&hm LGUI F11  &hm LSHFT F12  &trans  &trans  &studio_unlock    &trans        &kp NUMBER_4  &kp N5        &kp NUMBER_6  &trans
-&bt BT_SEL 0  &kp F1         &kp F2  &kp F3  &trans            &kp NUMBER_0  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &bootloader
-                              &trans  &trans                    &trans        &trans
+&kp F1        &kp F2         &kp F3  &kp F4  &kp F5          &kp F6        &kp N7        &kp N8        &kp N9        &kp F10
+&hm LGUI F11  &hm LSHFT F12  &trans  &trans  &studio_unlock  &trans        &kp NUMBER_4  &kp N5        &kp NUMBER_6  &trans
+&bt BT_SEL 0  &kp F1         &kp F2  &kp F3  &trans          &kp NUMBER_0  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &bootloader
+                                     &trans  &trans          &trans        &trans
             >;
         };
 
         EXTRA {
             display-name = "Extra";
             bindings = <
-&trans  &trans          &trans          &trans           &msc SCRL_UP      &trans  &trans     &trans     &trans  &trans
-&trans  &trans          &mmv MOVE_UP    &trans           &msc SCRL_DOWN    &trans  &mkp LCLK  &mkp RCLK  &trans  &trans
-&trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans            &trans  &trans     &trans     &trans  &trans
-                        &trans          &trans            &trans            &trans
+&bt BT_CLR  &bt BT_PRV      &bt BT_NXT      &trans           &msc SCRL_UP    &trans  &trans     &trans     &trans  &trans
+&trans      &trans          &mmv MOVE_UP    &trans           &msc SCRL_DOWN  &trans  &mkp LCLK  &mkp RCLK  &trans  &trans
+&trans      &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans          &trans  &trans     &trans     &trans  &trans
+                                            &trans           &trans          &trans  &trans
             >;
         };
     };
