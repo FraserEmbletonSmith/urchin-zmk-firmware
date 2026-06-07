@@ -1,165 +1,235 @@
-/*
- * Copyright (c) 2020 duckyb
- *
- * SPDX-License-Identifier: MIT
- */
-
 #include <behaviors.dtsi>
-#include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/outputs.h>
-#include "keymap_italian.h"
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
 
-// Layer definitions
-#define BASE 0
-#define SYM 1
-#define EXT 2
-#define FNC 3
-#define SYM2 4
-#define ACCENT 5
-#define SETTINGS 6
-// -----------------
-
-&sk {
-	// don't release mods on other mods presses
-	ignore-modifiers;
-};
-
+#define DEF 0
+#define NAV 1
+#define SYM 2
+#define ADJ 3
+#define EXTRA 4
 
 / {
-	behaviors {
-		// Enables holding the first mod-tap key
-		// by performing a tap-release-hold sequence.
-		// To use it: "&qt KEYCODE1 KEYCODE2"
-		qt: quick_tap {
-			compatible = "zmk,behavior-hold-tap";
-			label = "QUICK_TAP";
-			#binding-cells = <2>;
-			flavor = "hold-preferred";
-			tapping-term-ms = <200>;
-			quick-tap-ms = <200>;
-			bindings = <&kp>, <&kp>;
-		};
-	};
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+            quick-tap-ms = <180>;
+            require-prior-idle-ms = <120>;
+        };
 
-	macros {
-		// sometimes my device thinks a modifier is being held down
-		// pressing all modifiers fixes it.
-		unstick: unstick {
-			label = "ZM_unstick";
-			compatible = "zmk,behavior-macro";
-			#binding-cells = <0>;
-			bindings = <&kp LSHIFT &kp RSHIFT &kp LCTRL &kp RCTRL &kp LALT &kp RALT &kp LGUI &kp RGUI>;
-		};
-	};
+        para: para {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_PARENTHESIS>, <&kp RIGHT_PARENTHESIS>;
+        };
 
-	combos {
-		compatible = "zmk,combos";
-		// both right thumb keys
-		combo_accent {
-			timeout-ms = <200>;
-			key-positions = <32 33>;
-			bindings = <&mo ACCENT>;
-		};
-		// internal-left & external-right thumb keys
-		combo_sym2 {
-			timeout-ms = <200>;
-			key-positions = <31 33>;
-			bindings = <&mo SYM2>;
-		};
-		// both left thumb keys
-		combo_settings {
-			timeout-ms = <200>;
-			key-positions = <30 31>;
-			bindings = <&mo SETTINGS>;
-		};
-		// left index & middle fingers (home-row)
-		// hold control & space for Adobe workflow
-		combo_ctrl_space {
-			timeout-ms = <200>;
-			key-positions = <12 13>;
-			bindings = <&kp LC(SPACE)>;
-			layers = <BASE>;
-		};
-	};
+        caps: caps {
+            compatible = "zmk,behavior-caps-word";
+            #binding-cells = <0>;
+            continue-list = <MINUS BACKSPACE>;
+        };
 
-	keymap {
-		compatible = "zmk,keymap";
-		// Base alpha layer
-		default_layer {
-			label = "Base";
-			bindings = <
-			&kp Q &kp W &kp E &kp R &kp T           &kp Y &kp U  &kp I     &kp O   &kp P 
-			&kp A &kp S &kp D &kp F &kp G           &kp H &kp J  &kp K     &kp L &kp IT_OGRV
-			&kp Z &kp X &kp C &kp V &kp B           &kp N &kp M  &kp COMMA &kp DOT &kp IT_UGRV
-							&mo EXT &qt LSHIFT SPACE           &kp SPACE &sl SYM
-			>;
-		};
+        paraless: paraless {
+            compatible = "zmk,behavior-mod-morph";
+            bindings = <&kp LEFT_PARENTHESIS>, <&kp LESS_THAN>;
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT)>;
+        };
 
-		// Numbers and high frequency symbols
-		sym_layer {
-			label = "Sym.";
-			bindings = <
-			&kp N1 &kp N2 &kp N3 &kp N4 &kp N5		                                    &kp N6 &kp N7 &kp N8 &kp N9 &kp N0
-			&kp IT_LESS &kp IT_USD &kp IT_LPAR &kp IT_LBRC &kp IT_LBKT  &kp IT_EQL &kp IT_QUES &kp IT_SQUOT &kp IT_MINUS &kp IT_AST
-			&kp IT_GREAT &kp IT_PERC &kp IT_RPAR &kp IT_RBRC &kp IT_RBKT 	&kp IT_AT &kp IT_EXCL &kp IT_DQUOT &kp IT_PLUS &kp IT_FSLH
-														&mo FNC  &mo SYM2       &trans &trans
-			>;
-		};
+        paragreat: paragreat {
+            compatible = "zmk,behavior-mod-morph";
+            bindings = <&kp RIGHT_PARENTHESIS>, <&kp GREATER_THAN>;
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT)>;
+        };
+    };
 
-		// Main modifiers and arrow keys
-		ext_layer {
-			label = "Mods";
-			bindings = <
-			&kp ESC  &kp C_PREV &kp C_PP  &kp C_NEXT  &kp C_PAUSE    	&kp PG_UP  &kp HOME &kp UP &kp END &kp CAPS
-			&sk LALT &sk LGUI  &sk LSHIFT  &sk LCTRL  &kp RALT 			&kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT   &kp DEL
-			&kp LC(Z)  &kp LC(X) &kp LC(C) &kp TAB   &kp LC(V)          &kp LC(BSPC) &kp BSPC &trans &trans  &trans
-																		&trans &kp LCTRL    &kp ENTER  &mo FNC 
-			>;
-		};
+    macros {
+        browsertab: browsertab {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp TAB>,
+                <&macro_release>,
+                <&kp LCTRL>;
+        };
+    };
 
-		// Function keys with modifiers
-		fnc_layer {
-			label = "FRow";
-			bindings = <
-			&kp F1 &kp F2 &kp F3 &kp F4 &kp F5                  &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 
-			&sk LALT &sk LGUI &sk LSHIFT &sk LCTRL &kp RALT     &kp F11 &kp F12  &kp PRINTSCREEN &trans &trans
-			&none &none &none &none &none				          &none &none &none &none &none 
-							  &none &none              &none &none  
-			>;
-		};
+    combos {
+        compatible = "zmk,combos";
 
-		// Low frequency symbols.
-		symbols_2_layer {
-			label = "Sym.2";
-			bindings = <
-			&kp IT_CARET &kp IT_UNDER &kp IT_PND &kp IT_EUR &kp IT_HASH         &none &none &none &none &none 
-			&kp IT_BKTK &kp IT_TILDE &kp IT_BSLH &kp IT_PIPE &kp IT_AND         &none &none &none &none &none
-			&none 			&none 			 &kp IT_SECT &kp IT_CCED &kp IT_DEG				  &none &none &none &none &none
-																	&none &none        	&none &none 
-			>;
-		};
+        // TAB: hold rightmost left thumb (lt 1 BACKSPACE = pos 33) + Z (pos 20)
+        tab {
+            bindings = <&kp TAB>;
+            key-positions = <20 33>;
+            layers = <0>;
+        };
 
-		// Used to type regional accents.
-		accent_layer {
-			label = "Accent";
-			bindings = <
-			&none &none &none &kp IT_CEGR &none                         &none &none &none &none &none 
-			&kp IT_AGRV &kp IT_IGRV &kp IT_OGRV &kp IT_EGRV &kp IT_EACU &none &none &none &none &none
-			&none &none &none &kp IT_UGRV &none                         &none &none &none &none &none
-									&none &none                         &none &none 
-			>;
-		};
+        escape {
+            bindings = <&kp ESCAPE>;
+            key-positions = <13 29>;
+        };
 
-		// Used to change the keyboard's settings.
-		settings_layer {
-				label = "Sett.";
-				bindings = <
-				&bootloader &none &none &bt BT_CLR &bt BT_SEL 0               &bt BT_SEL 3 &none &unstick &none &bootloader 
-				&none &none &none &none      &bt BT_SEL 1 						  &bt BT_SEL 4 &none &none &none &none
-				&none &none &none &none      &bt BT_SEL 2               &bt BT_SEL 5 &none &none &none &none
-										&none &none                         &none &none 
-				>;
-		};
-	};
+        delete {
+            bindings = <&kp DELETE>;
+            key-positions = <15 21>;
+        };
+
+        perc {
+            bindings = <&kp PERCENT>;
+            key-positions = <5 17>;
+            layers = <0>;
+        };
+
+        equal {
+            bindings = <&kp EQUAL>;
+            key-positions = <28 16>;
+            layers = <0>;
+        };
+
+        dollar {
+            bindings = <&kp DOLLAR>;
+            key-positions = <4 16>;
+            layers = <0>;
+        };
+
+        pound {
+            bindings = <&kp POUND>;
+            key-positions = <3 15>;
+            layers = <0>;
+        };
+
+        at {
+            bindings = <&kp AT>;
+            key-positions = <2 14>;
+            layers = <0>;
+        };
+
+        backslash {
+            bindings = <&kp BACKSLASH>;
+            key-positions = <26 14>;
+            layers = <0>;
+        };
+
+        star {
+            bindings = <&kp STAR>;
+            key-positions = <8 20>;
+            layers = <0>;
+        };
+
+        slash {
+            bindings = <&kp SLASH>;
+            key-positions = <32 20>;
+            layers = <0>;
+        };
+
+        plus {
+            bindings = <&kp PLUS>;
+            key-positions = <7 19>;
+            layers = <0>;
+        };
+
+        minus {
+            bindings = <&kp KP_MINUS>;
+            key-positions = <31 19>;
+            layers = <0>;
+        };
+
+        underscore {
+            bindings = <&kp UNDER>;
+            key-positions = <30 18>;
+            layers = <0>;
+        };
+
+        leftbrack {
+            bindings = <&kp LEFT_BRACKET>;
+            key-positions = <31 32>;
+            layers = <0>;
+        };
+
+        rightbrack {
+            bindings = <&kp RIGHT_BRACKET>;
+            key-positions = <33 32>;
+            layers = <0>;
+        };
+
+        para-less {
+            bindings = <&paraless>;
+            key-positions = <20 19>;
+            layers = <0>;
+        };
+
+        para-great {
+            bindings = <&paragreat>;
+            key-positions = <20 21>;
+            layers = <0>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        // 34-key layout, rows of 10 + 4 thumbs
+        // Row 0: 0-9
+        // Row 1: 10-19
+        // Row 2: 20-29
+        // Thumbs: 30 31 | 32 33
+
+        DEF {
+            display-name = "Base";
+            bindings = <
+&kp Q           &kp W               &kp F             &kp P               &kp B              &kp J      &kp L               &kp U              &kp Y                &kp SEMI
+&hm LEFT_ALT A  &hm LEFT_CONTROL R  &hm LEFT_SHIFT S  &hm LEFT_COMMAND T  &kp G              &kp M      &hm LEFT_COMMAND N  &hm RIGHT_SHIFT E  &hm RIGHT_CONTROL I  &hm RIGHT_ALT O
+&kp Z           &kp X               &kp C             &kp D               &kp V              &kp K      &kp H               &kp COMMA          &kp DOT              &kp FSLH
+                                    &lt 2 ESCAPE      &lt 1 BACKSPACE    &kp SPACE  &lt 3 RETURN
+            >;
+        };
+
+        NAV {
+            display-name = "NavNum";
+            bindings = <
+&kp ESC         &trans              &trans                   &kp END               &kp HOME       &kp PAGE_UP    &kp HOME                &kp N8                &kp END               &kp N0
+&hm LEFT_ALT A  &hm LEFT_CONTROL S  &hm LEFT_SHIFT UP_ARROW  &hm LEFT_COMMAND DEL  &kp PAGE_UP    &kp PAGE_DOWN  &hm RIGHT_COMMAND LEFT  &hm RIGHT_SHIFT DOWN  &hm UP RIGHT_CONTROL  &hm RIGHT RIGHT_ALT
+&kp K_UNDO      &kp K_CUT           &kp C_AC_COPY            &kp LS(C)             &kp K_PASTE    &trans         &kp N1                  &kp N2                &kp N3                &kp PAGE_DOWN
+                                    &trans                   &kp SPACE              &kp RET        &mo 3
+            >;
+        };
+
+        SYM {
+            display-name = "Symbols";
+            bindings = <
+&kp GRAVE          &kp LESS_THAN           &kp GREATER_THAN      &kp MINUS                  &kp PIPE         &kp CARET  &kp LEFT_BRACE                      &kp RIGHT_BRACE                    &kp DOLLAR              &kp SEMI
+&hm LEFT_ALT EXCL  &hm LEFT_CONTROL ASTRK  &hm LEFT_SHIFT SLASH  &hm LEFT_COMMAND KP_EQUAL  &kp AMPERSAND    &kp HASH   &hm RIGHT_COMMAND LEFT_PARENTHESIS  &hm RIGHT_SHIFT RIGHT_PARENTHESIS  &hm RIGHT_CONTROL SEMI  &hm RIGHT_ALT SINGLE_QUOTE
+&kp TILDE          &kp PLUS                &kp LEFT_BRACKET      &kp RIGHT_BRACKET          &kp PERCENT      &kp AT     &kp COLON                           &kp LBRC                           &kp RBRC                &kp PIPE
+                                           &mo 3                  &kp SPACE                  &kp RET          &trans
+            >;
+        };
+
+        ADJ {
+            display-name = "System";
+            bindings = <
+&kp F1        &kp F2         &kp F3  &kp F4  &kp F5            &kp F6        &kp N7        &kp N8        &kp N9        &kp F10
+&hm LGUI F11  &hm LSHFT F12  &trans  &trans  &studio_unlock    &trans        &kp NUMBER_4  &kp N5        &kp NUMBER_6  &trans
+&bt BT_SEL 0  &kp F1         &kp F2  &kp F3  &trans            &kp NUMBER_0  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &bootloader
+                              &trans  &trans                    &trans        &trans
+            >;
+        };
+
+        EXTRA {
+            display-name = "Extra";
+            bindings = <
+&trans  &trans          &trans          &trans           &msc SCRL_UP      &trans  &trans     &trans     &trans  &trans
+&trans  &trans          &mmv MOVE_UP    &trans           &msc SCRL_DOWN    &trans  &mkp LCLK  &mkp RCLK  &trans  &trans
+&trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans            &trans  &trans     &trans     &trans  &trans
+                        &trans          &trans            &trans            &trans
+            >;
+        };
+    };
 };
